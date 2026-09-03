@@ -1,0 +1,15 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: Docker@2
+  inputs:
+    repository: 'mauroelpatiodemiabuela'
+    command: 'buildAndPush'
+    Dockerfile: '**/ApiRestaurante2/Dockerfile'
+    tags: |
+      $(Build.BuildId)
+      latest
