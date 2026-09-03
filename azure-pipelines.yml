@@ -7,6 +7,7 @@ pool:
 steps:
 - task: Docker@2
   inputs:
+    containerRegistry: 'ConexionDockerHub'
     repository: 'lordvader3005/mauroelpatiodemiabuela'
     command: 'buildAndPush'
     Dockerfile: 'ApiRestaurante2/Dockerfile'
