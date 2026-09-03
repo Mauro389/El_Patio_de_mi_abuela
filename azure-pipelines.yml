@@ -9,7 +9,8 @@ steps:
   inputs:
     repository: 'mauroelpatiodemiabuela'
     command: 'buildAndPush'
-    Dockerfile: '**/ApiRestaurante2/Dockerfile'
+    Dockerfile: 'ApiRestaurante2/Dockerfile'
+    buildContext: '.'
     tags: |
       $(Build.BuildId)
       latest
