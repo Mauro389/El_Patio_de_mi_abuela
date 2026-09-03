@@ -112,7 +112,7 @@ namespace Datos
         }
 
         // Generar Factura (Calcula totales automáticamente)
-        public string Generar(Factura factura, string usuarioEjecutor)
+        public virtual string Generar(Factura factura, string usuarioEjecutor)
         {
             try
             {

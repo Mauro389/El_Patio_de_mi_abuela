@@ -47,6 +47,21 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+// --- CORS CONFIG ---
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsApp", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+// -------------------
+
+// 1. Controladores
+builder.Services.AddControllers();
+
 // 3. Dependencias (Inyección de Servicios)
 builder.Services.AddScoped<Conexion>();
 
@@ -136,6 +151,10 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
+// --- APLICAR CORS ---
+app.UseCors("CorsApp");
+// --------------------
+
 // --- CÓDIGO ESPÍA: 
 app.Use(async (context, next) =>
 {
@@ -173,6 +192,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+
 
 // Orden Crítico: Primero Autenticación, luego Autorización
 app.UseAuthentication();

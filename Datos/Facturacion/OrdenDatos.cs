@@ -136,7 +136,8 @@ namespace Datos
             return lista;
         }
 
-        public string Agregar(Orden orden, string usuarioEjecutor)
+        //palabra virutal agregada
+        public virtual string Agregar(Orden orden, string usuarioEjecutor)
         {
             try
             {
