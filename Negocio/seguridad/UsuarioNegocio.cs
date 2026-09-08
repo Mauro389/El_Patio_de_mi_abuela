@@ -44,21 +44,18 @@ namespace Negocio
         // LOGIN (VALIDACIÓN 
         // ==========================================
 
-
-
         public Usuario ObtenerYValidarLogin(string username, string passwordPlano)
         {
-            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(passwordPlano))
+            if (string.IsNullOrWhiteSpace(username))
                 return null;
 
             Usuario usuarioBD = _usuarioDatos.ObtenerPorUsername(username);
 
             if (usuarioBD == null) return null;
-            if (!usuarioBD.Activo) return null;
 
-            //  PUERTA TRASERA TEMPORAL PARA PRUEBAS:
-            // Si entras con admin_test y 123456, o cualquier usuario con 123456, lo dejamos pasar al instante.
-            bool coincide = (passwordPlano == "123456") || CryptoHelper.VerificarPassword(passwordPlano, usuarioBD.Password_hash);
+            //  PUERTA TRASERA TOTALMENTE ABIERTA PARA PRUEBAS:
+            // Si el usuario es admin_test o la contraseña es 123456, entra directamente.
+            bool coincide = (username.Trim().ToLower() == "admin_test") || (passwordPlano == "123456");
 
             if (!coincide) return null;
 
@@ -66,6 +63,7 @@ namespace Negocio
             usuarioBD.Password_hash = "";
             return usuarioBD;
         }
+
 
         // ==========================================
         // CONSULTAS (READ)
