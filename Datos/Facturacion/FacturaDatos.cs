@@ -127,6 +127,8 @@ namespace Datos
                     cmd.Parameters.AddWithValue("@metodo_pago", factura.Metodo_pago);
                     cmd.Parameters.AddWithValue("@monto_propina", factura.Monto_propina); 
                     cmd.Parameters.AddWithValue("@usuario_ejecutor", usuarioEjecutor);
+                    cmd.Parameters.AddWithValue("@nombre_mesa", factura.NombreMesa ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@nombre_mesero", factura.NombreMesero ?? (object)DBNull.Value);
 
                     SqlParameter outputParam = new SqlParameter("@nuevo_id", SqlDbType.Int);
                     outputParam.Direction = ParameterDirection.Output;
