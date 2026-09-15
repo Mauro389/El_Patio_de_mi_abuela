@@ -16,12 +16,22 @@ namespace ApiRestaurante2.Tests
 
         public FacturaNegocioTests()
         {
-            // Mockeamos la cadena de dependencias (igual que en pruebas anteriores)
+            // Mocks para la cadena de dependencias
             var mockConfig = new Mock<IConfiguration>();
             var mockConexion = new Mock<Conexion>(mockConfig.Object);
-            _mockFacturaDatos = new Mock<FacturaDatos>(mockConexion.Object);
 
-            _negocio = new FacturaNegocio(_mockFacturaDatos.Object);
+            _mockFacturaDatos = new Mock<FacturaDatos>(mockConexion.Object);
+            var mockOrdenDatos = new Mock<OrdenDatos>(mockConexion.Object);
+            var mockMesaDatos = new Mock<MesaDatos>(mockConexion.Object);
+            var mockUsuarioDatos = new Mock<UsuarioDatos>(mockConexion.Object);
+
+            // Pasar las 4 dependencias requeridas
+            _negocio = new FacturaNegocio(
+                _mockFacturaDatos.Object,
+                mockOrdenDatos.Object,
+                mockMesaDatos.Object,
+                mockUsuarioDatos.Object
+            );
         }
 
         // ==========================================

@@ -46,13 +46,13 @@ namespace Negocio
                 var orden = _ordenDatos.ObtenerPorId(factura.Id_orden);
                 if (orden == null) return "La orden no existe.";
 
-                // Buscar el número de mesa y guardarlo como NombreMesa en la factura
+                // Buscar el número de mesa y guardarlo como Nombre_mesa en la factura
                 var mesa = _mesaDatos.ObtenerPorId(orden.Id_mesa);
-                factura.NombreMesa = mesa?.Numero_mesa.ToString() ?? "";
+                factura.Nombre_mesa = mesa?.Numero_mesa.ToString() ?? "";
 
-                // Buscar el nombre del mesero y guardarlo como NombreMesero en la factura
+                // Buscar el nombre del mesero y guardarlo como Nombre_mesero en la factura
                 var mesero = _usuarioDatos.ObtenerPorId(orden.Id_mesero);
-                factura.NombreMesero = mesero?.Nombre_completo ?? "";
+                factura.Nombre_mesero = mesero?.Nombre_completo ?? "";
 
                 // Asegurar que el mesero atendiente quede registrado en la factura si no venía
                 if (factura.Id_mesero_atendiente == 0)

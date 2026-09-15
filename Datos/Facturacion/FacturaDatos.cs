@@ -80,7 +80,7 @@ namespace Datos
                             Monto_total = Convert.ToDecimal(reader["monto_total"]),
                             Numero_factura_fiscal = reader["numero_factura_fiscal"].ToString(),
                             Activo = Convert.ToBoolean(reader["activo"]),
-                            DetalleItems = new List<DetalleOrden>()
+                            Detalle_items = new List<DetalleOrden>()
                         };
 
                         
@@ -94,7 +94,7 @@ namespace Datos
 
                         while (readerDet.Read())
                         {
-                            factura.DetalleItems.Add(new DetalleOrden
+                            factura.Detalle_items.Add(new DetalleOrden
                             {
                                 Id_detalle = Convert.ToInt32(readerDet["id_detalle"]),
                                 Id_producto = Convert.ToInt32(readerDet["id_producto"]),
@@ -127,8 +127,8 @@ namespace Datos
                     cmd.Parameters.AddWithValue("@metodo_pago", factura.Metodo_pago);
                     cmd.Parameters.AddWithValue("@monto_propina", factura.Monto_propina); 
                     cmd.Parameters.AddWithValue("@usuario_ejecutor", usuarioEjecutor);
-                    cmd.Parameters.AddWithValue("@nombre_mesa", factura.NombreMesa ?? (object)DBNull.Value);
-                    cmd.Parameters.AddWithValue("@nombre_mesero", factura.NombreMesero ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@nombre_mesa", (object)factura.Nombre_mesa ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@nombre_mesero", (object)factura.Nombre_mesero ?? DBNull.Value);
 
                     SqlParameter outputParam = new SqlParameter("@nuevo_id", SqlDbType.Int);
                     outputParam.Direction = ParameterDirection.Output;

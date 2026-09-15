@@ -16,9 +16,9 @@
         public bool Activo { get; set; }
 
         // Propiedades auxiliares para lectura
-        public string NombreMesero { get; set; }
-        public string NombreCajero { get; set; }
-        public string NombreMesa { get; set; } //nuevo campo para que se muestre el nombre de la mesa en la factura 
-        public List<DetalleOrden> DetalleItems { get; set; } // Para mostrar qué se cobró
+        public string Nombre_mesero { get; set; }
+        public string Nombre_cajero { get; set; }
+        public string Nombre_mesa { get; set; } //nuevo campo para que se muestre el nombre de la mesa en la factura 
+        public List<DetalleOrden> Detalle_items { get; set; } // Para mostrar qué se cobró
     }
 }

@@ -76,9 +76,9 @@ namespace ApiRestaurante2.Servicios
                                     header.Cell().Element(CellStyle).Text("Total").FontSize(5).Bold().AlignRight();
                                 });
 
-                                if (factura.DetalleItems != null)
+                                if (factura.Detalle_items != null)
                                 {
-                                    foreach (var item in factura.DetalleItems)
+                                    foreach (var item in factura.Detalle_items)
                                     {
                                         var subtotal = item.Cantidad * item.Precio_al_momento;
                                         var nombre = item.NombreProducto ?? "Item";
