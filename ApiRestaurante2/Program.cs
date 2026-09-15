@@ -46,6 +46,8 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+
 // --- CORS CONFIG ---
 builder.Services.AddCors(options =>
 {
