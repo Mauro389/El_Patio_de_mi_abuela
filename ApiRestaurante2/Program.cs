@@ -4,8 +4,16 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Negocio;
 using System.Text;
+using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configuración global de licencia QuestPDF
+QuestPDF.Settings.License = LicenseType.Community;
+
+// ... resto de tus servicios (builder.Services.AddControllers, etc.)
+
+
 
 // 1. Controladores
 builder.Services.AddControllers();

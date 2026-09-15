@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Negocio;
 using System.Security.Claims;
- 
+
 
 namespace ApiRestaurante2.Controllers
 {
@@ -119,7 +119,7 @@ namespace ApiRestaurante2.Controllers
         }
         // NUEVO ENDPOINT PARA DESCARGAR PDF
         [HttpGet("{id}/pdf")]
-        public IActionResult DescargarPdf(int id)
+        public async Task<IActionResult> DescargarPdf(int id)
         {
             if (!TieneAccesoLectura(out int idRol))
                 return StatusCode(403, new { exito = false, mensaje = "Acceso Denegado." });
@@ -130,9 +130,9 @@ namespace ApiRestaurante2.Controllers
                 var factura = _facturaNegocio.ObtenerPorId(id);
                 if (factura == null) return NotFound(new { exito = false, mensaje = "Factura no encontrada." });
 
-                // 2. Generar el PDF
-                var pdfService = new FacturaPdfService(); // O inyectarlo por constructor si prefieres
-                byte[] pdfBytes = pdfService.GenerarFactura(factura);
+                // 2. Generar el PDF usando el método asíncrono
+                var pdfService = new FacturaPdfService();
+                byte[] pdfBytes = await pdfService.GenerarFacturaAsync(factura);
 
                 // 3. Retornar el archivo
                 return File(pdfBytes, "application/pdf", $"Factura_{factura.Numero_factura_fiscal}.pdf");
