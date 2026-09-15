@@ -8,10 +8,16 @@ namespace Negocio
     public class FacturaNegocio
     {
         private readonly FacturaDatos _facturaDatos;
+        private readonly OrdenDatos _ordenDatos;
+        private readonly MesaDatos _mesaDatos;
+        private readonly UsuarioDatos _usuarioDatos;
 
-        public FacturaNegocio(FacturaDatos facturaDatos)
+        public FacturaNegocio(FacturaDatos facturaDatos, OrdenDatos ordenDatos, MesaDatos mesaDatos, UsuarioDatos usuarioDatos)
         {
             _facturaDatos = facturaDatos;
+            _ordenDatos = ordenDatos;
+            _mesaDatos = mesaDatos;
+            _usuarioDatos = usuarioDatos;
         }
 
         public List<Factura> ListarActivas()
@@ -34,9 +40,26 @@ namespace Negocio
             if (string.IsNullOrWhiteSpace(factura.Metodo_pago)) return "El método de pago es obligatorio.";
             if (factura.Monto_propina < 0) return "La propina no puede ser negativa.";
 
-      
+            try
+            {
+                // Buscar la orden para obtener id_mesa e id_mesero
+                var orden = _ordenDatos.ObtenerPorId(factura.Id_orden);
+                if (orden == null) return "La orden no existe.";
 
-            try { return _facturaDatos.Generar(factura, usuarioEjecutor); }
+                // Buscar el número de mesa y guardarlo como NombreMesa en la factura
+                var mesa = _mesaDatos.ObtenerPorId(orden.Id_mesa);
+                factura.NombreMesa = mesa?.Numero_mesa.ToString() ?? "";
+
+                // Buscar el nombre del mesero y guardarlo como NombreMesero en la factura
+                var mesero = _usuarioDatos.ObtenerPorId(orden.Id_mesero);
+                factura.NombreMesero = mesero?.Nombre_completo ?? "";
+
+                // Asegurar que el mesero atendiente quede registrado en la factura si no venía
+                if (factura.Id_mesero_atendiente == 0)
+                    factura.Id_mesero_atendiente = orden.Id_mesero;
+
+                return _facturaDatos.Generar(factura, usuarioEjecutor);
+            }
             catch (Exception ex) { throw new Exception("Error al generar: " + ex.Message); }
         }
 

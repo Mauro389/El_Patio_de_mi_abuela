@@ -21,12 +21,11 @@ builder.Services.AddSwaggerGen(c =>
         Description = "Sistema seguro con Roles, Usuarios, Categorías y JWT"
     });
 
+    // Configuración compatible con OpenAPI V2 (Swagger 2.0)
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
-        Type = SecuritySchemeType.Http,
-        Scheme = "Bearer",
-        BearerFormat = "JWT",
+        Type = SecuritySchemeType.ApiKey, // Usar ApiKey en lugar de Http para V2
         In = ParameterLocation.Header,
         Description = "Escribe: Bearer TU_TOKEN"
     });
@@ -120,10 +119,10 @@ builder.Services.AddAuthentication(options =>
     
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuerSigningKey = false, // Desactivado temporalmente para pruebas
-        ValidateIssuer = false,           // Desactivado temporalmente
-        ValidateAudience = false,         // Desactivado temporalmente
-        ValidateLifetime = false,         // Desactivado temporalmente
+        ValidateIssuerSigningKey = true, // Desactivado temporalmente para pruebas //activadas todas de nuvo por seguridad
+        ValidateIssuer = true,           // Desactivado temporalmente
+        ValidateAudience = true,         // Desactivado temporalmente
+        ValidateLifetime = true,         // Desactivado temporalmente
 
         ValidIssuer = issuer,
         ValidAudience = audience,
@@ -187,11 +186,12 @@ app.Use(async (context, next) =>
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
+    app.UseSwagger(options =>
+    {
+        options.SerializeAsV2 = true; // Esto obliga a generar Swagger 2.0, compatible con la UI
+    });
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
 
 
 
